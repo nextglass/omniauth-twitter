@@ -65,6 +65,16 @@ module OmniAuth
         request.params['callback_url'] || super
       end
 
+      def callback_path
+        params = session['omniauth.params']
+
+        if params.nil? || params['callback_url'].nil?
+          super
+        else
+          URI(params['callback_url']).path
+        end
+      end
+
       private
 
       def image_url
